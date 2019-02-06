@@ -84,7 +84,11 @@ public class Test06_GroupingBy {
 
         Map<String, List<String>> result =
                 sonnet.stream()
-                    .collect(groupingBy(word -> word.substring(0, 1)));
+                    .collect(
+                            groupingBy(
+                                    line -> line.substring(0, 1)
+                            )
+                    );
 
         assertThat(result.size()).isEqualTo(8);
         assertThat(result).contains(
