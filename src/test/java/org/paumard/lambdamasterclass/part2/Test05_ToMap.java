@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -126,7 +127,14 @@ public class Test05_ToMap {
     @Test
     public void toMap_6() {
 
-        Map<String, String> result = null; // TODO
+        Map<String, String> result = sonnet.stream()
+                .collect(
+                        toMap(
+                            line -> line.substring(0, 1),
+                            line -> line,
+                            (line1, line2) -> line1.concat("\n").concat(line2)
+                        )
+                );
 
         assertThat(result.size()).isEqualTo(8);
         assertThat(result).contains(

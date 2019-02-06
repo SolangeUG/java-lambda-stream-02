@@ -28,10 +28,10 @@ public class Test04_FunctionCombination {
 
     @Test
     public void functionCombination_2() {
-
         List<IntUnaryOperator> operators =
                 List.of(i -> i + 1, i -> i * 2, i -> i + 3);
 
+        // actually, the IntUnaryOperator interface has a default identity() method.
         IntUnaryOperator combinedOperator = operators.stream()
                 .reduce(value -> value, IntUnaryOperator::andThen);
 
