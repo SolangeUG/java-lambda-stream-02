@@ -43,7 +43,7 @@ public class Test01_FlatMap {
     public void flatMap_1() {
 
         List<List<String>> result = alphabet.stream()
-                .map(s -> expand(s))
+                .map(this::expand)
                 .collect(toList());
 
         assertThat(result).containsExactly(
