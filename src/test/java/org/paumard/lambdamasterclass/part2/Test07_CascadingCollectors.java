@@ -109,6 +109,26 @@ public class Test07_CascadingCollectors {
         );
     }
 
+    @Test
+    public void letterFrequencies() {
+        Map<String, Long> frequencies = sonnet.stream()
+                .flatMap(line -> expand(line).stream())
+                .collect(
+                        groupingBy(
+                                letter -> letter,
+                                counting())
+                );
+        frequencies
+            .forEach((letter, frequency) -> System.out.println(String.format("%s => [%d]", letter, frequency)));
+
+    }
+
+    private List<String> expand(String s) {
+        return s.codePoints()
+                .mapToObj(codePoint -> Character.toString((char)codePoint))
+                .collect(toList());
+    }
+
     private String firstLetter(String line) {
         return line.substring(0, 1);
     }
