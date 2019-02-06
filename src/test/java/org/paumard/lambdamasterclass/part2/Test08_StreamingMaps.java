@@ -1,23 +1,11 @@
 package org.paumard.lambdamasterclass.part2;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class Test08_StreamingMaps {
 
@@ -46,5 +34,24 @@ public class Test08_StreamingMaps {
 
         Pattern pattern = Pattern.compile(("[ ,':\\-]+"));
 
+        Map<String, Long> wordFrequencies = sonnet.stream()
+                .map(String::toLowerCase)
+                .flatMap(pattern::splitAsStream)
+                .collect(
+                        Collectors.groupingBy(
+                                word -> word,
+                                Collectors.counting()
+                        )
+                );
+        wordFrequencies.forEach(
+                (word, frequency) -> System.out.println(String.format("[%d] <= %s", frequency, word))
+        );
+
+        Map.Entry<String, Long> mostFrequentWord = wordFrequencies.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow();
+
+        System.out.println(String.format("%slongest word is %s", "\n", mostFrequentWord));
     }
 }
