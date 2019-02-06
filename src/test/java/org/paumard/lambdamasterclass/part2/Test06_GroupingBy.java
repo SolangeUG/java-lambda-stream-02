@@ -2,10 +2,7 @@ package org.paumard.lambdamasterclass.part2;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toMap;
@@ -44,7 +41,7 @@ public class Test06_GroupingBy {
                 alphabet.stream()
                         .collect(toMap(
                                 String::length,
-                                s -> new ArrayList<>(Arrays.asList(s)),
+                                s -> new ArrayList<>(Collections.singletonList(s)),
                                 (a, b) -> {
                                     a.addAll(b);
                                     return a;
