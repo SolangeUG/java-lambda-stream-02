@@ -41,7 +41,7 @@ public class Test07_CascadingCollectors {
 
         Map<String, Long> map =
                 sonnet.stream()
-                        .collect(groupingBy(line -> line.substring(0, 1),
+                        .collect(groupingBy(this::firstLetter,
                                 Collectors.counting()));
 
         assertThat(map.size()).isEqualTo(8);
@@ -62,7 +62,7 @@ public class Test07_CascadingCollectors {
 
         Map<String, List<Integer>> map =
                 sonnet.stream()
-                        .collect(groupingBy(line -> line.substring(0, 1),
+                        .collect(groupingBy(this::firstLetter,
                                 mapping(String::length, toList())));
 
         assertThat(map.size()).isEqualTo(8);
@@ -84,7 +84,17 @@ public class Test07_CascadingCollectors {
     @Test
     public void cascadingCollectors_03() {
 
-        Map<String, Set<String>> map = null; // TODO
+        Map<String, Set<String>> map =
+                sonnet.stream()
+                        .collect(
+                                groupingBy(
+                                        this::firstLetter,
+                                        mapping(
+                                                this::firstWord,
+                                                toSet()
+                                        )
+                                )
+                        );
 
         assertThat(map.size()).isEqualTo(8);
         assertThat(map).containsExactly(
@@ -97,5 +107,13 @@ public class Test07_CascadingCollectors {
                 Map.entry("H", Set.of("His")),
                 Map.entry("M", Set.of("Making"))
         );
+    }
+
+    private String firstLetter(String line) {
+        return line.substring(0, 1);
+    }
+
+    private String firstWord(String line) {
+        return line.split(" +")[0];
     }
 }
