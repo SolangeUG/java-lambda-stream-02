@@ -29,13 +29,12 @@ public class Test00_MapFilter {
 
     @Test
     public void mapFilter_2() {
-        int number = 21;
-//        BigInteger result = BigInteger.ONE; // TODO
+        // the seed is the identity value for the function called by reduce
+        BigInteger seed = BigInteger.ONE;
 
         BigInteger result = LongStream.rangeClosed(1, 21)
                 .mapToObj(BigInteger::valueOf)
-                .reduce(BigInteger.ONE, BigInteger::multiply);
-
+                .reduce(seed, BigInteger::multiply);
 
         assertThat(result).isEqualTo(new BigInteger("51090942171709440000"));
     }
